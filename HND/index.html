@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise For You 💖</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body onload="startLoading()">
+    <div class="floating-items">
+        <div class="item">✨</div><div class="item">🌸</div><div class="item">💖</div>
+    </div>
+
+    <div id="page-loading" class="page active-page">
+        <h2 id="loading-text" class="page-title">กำลังรวบรวมความทรงจำ...</h2>
+        <div class="loading-bar-container">
+            <div id="loading-fill" class="loading-fill"></div>
+        </div>
+        <p id="loading-percent" style="margin-top: 10px; color: #d87093; font-weight: bold;">0%</p>
+    </div>
+
+    <div id="page-0" class="page hidden">
+        <div class="passcode-container">
+            <div class="lock-icon">🔒</div>
+            <h2>ใส่รหัสผ่านหัวใจหน่อยยย</h2>
+            <p>ใบ้: วันครบรอบของเรา (เช่น 1402)</p>
+            <div class="input-group">
+                <input type="password" id="passcodeInput" maxlength="4" placeholder="••••">
+                <button onclick="checkPasscode()">ปลดล็อค</button>
+            </div>
+            <p id="error-msg" class="error-msg hidden">รหัสผิดน้าา ลองใหม่ๆ 🥺</p>
+        </div>
+    </div>
+
+    <div id="page-1" class="page hidden">
+        <h1 class="typing-text">Happy Birthday นะคะคนดี! 🎉</h1>
+        <section class="audio-section">
+            <p>🎵 เพลงโปรดของเรา (เปิดฟังไปด้วยนะ)</p>
+            <audio id="bgm" controls loop>
+                <source src="data/rctm.mp3" type="audio/mpeg">
+            </audio>
+        </section>
+        <div class="nav-buttons">
+            <button class="nav-btn next-btn" onclick="goToPage('page-1', 'page-2')">ไปดูกันต่อเลย ➡️</button>
+        </div>
+    </div>
+
+    <div id="page-2" class="page hidden">
+        <h2 class="page-title">มีจดหมายส่งมาถึงเธอ 💌</h2>
+        <p style="margin-bottom: 20px; color: #888;">(แตะที่ซองจดหมายเพื่อเปิดอ่าน)</p>
+        
+        <div class="envelope-wrapper" onclick="openEnvelope()">
+            <div class="envelope-back"></div>
+            <div class="letter">
+                <h3>ถึงคนเก่งของเค้า</h3>
+                <p>ขอบคุณที่เข้ามาเป็นความน่ารักในทุกๆ วัน ขอให้ปีนี้เป็นปีที่ดี ร่างกายแข็งแรง และเติบโตไปเป็นคนที่ร่าเริงแบบนี้ต่อไปนะ❤️</p>
+            </div>
+            <div class="envelope-front"></div>
+            <div class="envelope-flap"></div>
+            <div class="heart-seal">💖</div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn prev-btn" onclick="goToPage('page-2', 'page-1')">⬅️ ย้อนกลับ</button>
+            <button class="nav-btn next-btn" onclick="goToPage('page-2', 'page-3')">หน้าต่อไป ➡️</button>
+        </div>
+    </div>
+
+    <div id="page-3" class="page hidden">
+        <h2 class="page-title">ความในใจ 💌</h2>
+        <section class="flip-gallery">
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><img src="data/JZ01.jpg" alt="Memory"></div>
+                    <div class="flip-card-back">
+                        <h3>ยินดีด้วยกับการเติมโตนะ</h3>
+                        <p>สองภาพเหมือนแต่ต่างกันที่ช่วงเวลา</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><img src="data/JZ02.png" alt="Memory"></div>
+                    <div class="flip-card-back">
+                        <h3>คนเก่งของเค้า</h3>
+                        <p>ภูมิใจในตัวเธอเสมอเลยนะคะ</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="nav-buttons">
+            <button class="nav-btn prev-btn" onclick="goToPage('page-3', 'page-2')">⬅️ ย้อนกลับ</button>
+            <button class="nav-btn next-btn" onclick="goToPage('page-3', 'page-4')">หน้าต่อไป ➡️</button>
+        </div>
+    </div>
+
+    <div id="page-4" class="page hidden">
+        <section class="scratch-section">
+            <h2>🎟️ ขูดดูของขวัญพิเศษสิ!</h2>
+            <br>
+            <p>ใช้นิ้วถูๆ เพื่อลุ้นรับของรางวัล</p>
+            <div class="scratch-container">
+                <div class="scratch-reward">🎉 คูปองไปที่ไหนก็ได้ 🎉</div>
+                <canvas id="scratch-pad" width="340" height="170"></canvas>
+            </div>
+        </section>
+        <div class="nav-buttons">
+            <button class="nav-btn prev-btn" onclick="goToPage('page-4', 'page-3')">⬅️ ย้อนกลับ</button>
+            <button class="nav-btn next-btn" onclick="goToPage('page-4', 'page-5')">หน้าต่อไป ➡️</button>
+        </div>
+    </div>
+
+    <div id="page-5" class="page hidden">
+        <section class="slider-section">
+            <h2>📸 อัลบั้มความทรงจำของเรา</h2>
+            <div class="slider-container">
+                <div class="slider-track" id="sliderTrack">
+                    <div class="slide"><img src="data/JZ03.png" alt="Memory"></div>
+                    <div class="slide"><img src="data/JZ05.png" alt="Memory"></div>
+                    <div class="slide"><img src="data/JZ06.png" alt="Memory"></div>
+                    <div class="slide"><img src="data/JZ07.png" alt="Memory"></div>
+                </div>
+                <button class="slider-btn slide-prev" onclick="moveSlide(-1)">&#10094;</button>
+                <button class="slider-btn slide-next" onclick="moveSlide(1)">&#10095;</button>
+            </div>
+            <div class="slider-dots" id="sliderDots"></div>
+        </section>
+        <div class="nav-buttons">
+            <button class="nav-btn prev-btn" onclick="goToPage('page-5', 'page-4')">⬅️ ย้อนกลับ</button>
+            <button class="nav-btn next-btn" onclick="goToPage('page-5', 'page-6')">หน้าสุดท้าย ➡️</button>
+        </div>
+    </div>
+
+    <div id="page-6" class="page hidden">
+        <section class="jar-section">
+            <h2 class="page-title">🔮 โหลสุ่มความ</h2>
+            <p style="margin-bottom: 20px;">กดปุ่มเพื่อดูความในใจแบบสุ่มนะ!</p>
+            <div class="jar-container">
+                <p id="random-msg">" ลองกดปุ่มดูสิคะ "</p>
+            </div>
+            <button class="nav-btn" style="margin-top: 20px; background: #ffb6c1; color: white;" onclick="generateMessage()">กดสุ่มเลยยย 💖</button>
+        </section>
+        <div class="nav-buttons">
+            <button class="nav-btn prev-btn" onclick="goToPage('page-6', 'page-5')">⬅️ ย้อนกลับ</button>
+        </div>
+    </div>
+
+    <script>
+        // --- ระบบ Loading Screen ---
+        function startLoading() {
+            let progress = 0;
+            const fill = document.getElementById('loading-fill');
+            const text = document.getElementById('loading-text');
+            const percent = document.getElementById('loading-percent');
+            
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 15) + 5; 
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    setTimeout(() => goToPage('page-loading', 'page-0'), 800);
+                }
+                fill.style.width = progress + '%';
+                percent.innerText = progress + '%';
+
+                if(progress > 40 && progress < 80) text.innerText = "กำลังจัดเตรียมของขวัญ... 🎁";
+                if(progress >= 80) text.innerText = "โหลดความน่ารักเกินพิกัดแล้ว! ✨";
+            }, 300);
+        }
+
+        // --- ระบบนำทาง (Navigation) ---
+        function goToPage(currentId, targetId) {
+            const current = document.getElementById(currentId);
+            const target = document.getElementById(targetId);
+            current.classList.remove('active-page');
+            current.classList.add('hidden');
+            setTimeout(() => {
+                target.classList.remove('hidden');
+                target.classList.add('active-page');
+                if(targetId === 'page-4') initScratchCard();
+            }, 300);
+        }
+
+        // --- รหัสผ่านปลดล็อค ---
+        function checkPasscode() {
+            const input = document.getElementById('passcodeInput').value;
+            if (input === "0404") {
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ffb6c1', '#ffd1dc', '#fff'] });
+                document.getElementById('bgm').play().catch(()=>{});
+                goToPage('page-0', 'page-1');
+            } else {
+                const container = document.querySelector('.passcode-container');
+                document.getElementById('error-msg').classList.remove('hidden');
+                container.classList.add('shake');
+                setTimeout(() => container.classList.remove('shake'), 500);
+            }
+        }
+
+        // --- จดหมายรักเปิดได้ ---
+        function openEnvelope() {
+            document.querySelector('.envelope-wrapper').classList.add('open');
+            document.querySelector('.heart-seal').style.display = 'none';
+        }
+
+        // --- โหลสุ่มความคลั่งรัก ---
+        const messages = [
+            "ชอบเวลาเธอยิ้มที่สุดเลยนะ 😊", "วันนี้คนเก่งเหนื่อยไหม กอดๆ นะ 🫂", 
+            "รักนะคะ รู้ใช่มั้ยยย 💖", "ขอบคุณที่เกิดมาให้รักนะ 🎂", 
+            "ภูมิใจในตัวเธอเสมอเลย 🌟", "อยากกินอะไรเดี๋ยวพาไป! 🍜",
+            "น่ารักแบบนี้มีคนเดียวในโลก ✨"
+        ];
+        function generateMessage() {
+            const msgBox = document.getElementById('random-msg');
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            msgBox.style.animation = 'none';
+            setTimeout(() => {
+                msgBox.innerText = randomMsg;
+                msgBox.style.animation = 'popIn 0.5s ease forwards';
+            }, 50);
+            confetti({ particleCount: 50, spread: 40, origin: { y: 0.8 }, colors: ['#ffb6c1'] });
+        }
+
+        // --- Slider รูปภาพ ---
+        let currentSlide = 0;
+        const sliderTrack = document.getElementById('sliderTrack');
+        const sliderSlides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('sliderDots');
+
+        sliderSlides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.onclick = () => { currentSlide = index; updateSlider(); };
+            dotsContainer.appendChild(dot);
+        });
+        const sliderDots = document.querySelectorAll('.dot');
+        function updateSlider() {
+            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            sliderDots.forEach(dot => dot.classList.remove('active'));
+            sliderDots[currentSlide].classList.add('active');
+        }
+        function moveSlide(dir) {
+            currentSlide += dir;
+            if (currentSlide < 0) currentSlide = sliderSlides.length - 1;
+            if (currentSlide >= sliderSlides.length) currentSlide = 0;
+            updateSlider();
+        }
+
+        // --- Scratch Card ---
+        let isScratchInit = false;
+        function initScratchCard() {
+            if(isScratchInit) return; 
+            const canvas = document.getElementById('scratch-pad');
+            const ctx = canvas.getContext('2d');
+            let isDrawing = false;
+            ctx.fillStyle = '#c0c0c0'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.font = '20px Mali'; ctx.fillStyle = '#777'; ctx.textAlign = 'center';
+            ctx.fillText('ขูดตรงนี้เลย!', canvas.width / 2, canvas.height / 2 + 5);
+            ctx.globalCompositeOperation = 'destination-out';
+            function scratch(e) {
+                if (!isDrawing) return; e.preventDefault();
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+                const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+                ctx.beginPath(); ctx.arc(x, y, 20, 0, 2 * Math.PI); ctx.fill();
+            }
+            canvas.addEventListener('mousedown', () => isDrawing = true);
+            canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
+            canvas.addEventListener('mousemove', scratch);
+            canvas.addEventListener('touchmove', scratch);
+            window.addEventListener('mouseup', () => isDrawing = false);
+            window.addEventListener('touchend', () => isDrawing = false);
+            isScratchInit = true;
+        }
+
+        // --- ลูกเล่นใหม่: คลิกตรงไหนก็เป็นคำรัก (Click to Float Text) ---
+        const floatWords = ["Love You", "Cute", "💖", "Miss You", "จุ๊บๆ", "✨", "คนเก่ง"];
+        document.addEventListener('click', (e) => {
+            // ไม่ให้เอฟเฟกต์ขึ้นตอนกดปุ่มหรือขูดหวยเพื่อไม่ให้รบกวนการใช้งาน
+            if(e.target.tagName === 'BUTTON' || e.target.tagName === 'CANVAS' || e.target.tagName === 'INPUT') return;
+            
+            const floatElement = document.createElement('div');
+            floatElement.className = 'click-float-text';
+            floatElement.innerText = floatWords[Math.floor(Math.random() * floatWords.length)];
+            floatElement.style.left = `${e.clientX}px`;
+            floatElement.style.top = `${e.clientY}px`;
+            document.body.appendChild(floatElement);
+            setTimeout(() => floatElement.remove(), 1000);
+        });
+    </script>
+</body>
+</html>
